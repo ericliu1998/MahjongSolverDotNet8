@@ -1,0 +1,21 @@
+
+{
+    "region" : "us-east-2",
+    "profile" : "default",
+    "configuration" : "Release",
+    "framework"     : "net8.0",
+    "function-name" : "MahjongSolverApi",
+    "function-description" : "MahjongSolverApiDotNet8",
+    "package-type"         : "Zip",
+    "function-handler"     : "MahjongSolverApiDotNet8",
+    "function-memory-size" : 192,
+    "function-role"        : "arn:aws:iam::471112907356:role/service-role/MahjongSolverApi-role-bq9segyj",
+    "function-timeout"     : 15,
+    "function-runtime"     : "dotnet8",
+    "function-architecture" : "x86_64",
+    "function-subnets"      : "",
+    "function-security-groups" : "",
+    "tracing-mode"             : "PassThrough",
+    "environment-variables"    : "",
+    "image-tag"                : ""
+}

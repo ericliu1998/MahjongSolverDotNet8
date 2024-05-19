@@ -1,0 +1,10 @@
+@MahjongSolverApiDotNet8_HostAddress = https://localhost:7190
+
+GET {{MahjongSolverApiDotNet8_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{MahjongSolverApiDotNet8_HostAddress}}/weatherforecast
+
+###
