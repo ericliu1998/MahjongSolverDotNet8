@@ -9,10 +9,20 @@ namespace MahjongSolverApiDotNet8.Services
     {
         public SolveHandResponse SolveMahjongHand(List<int> tiles)
         {
+            if (tiles.Count > 14)
+            {
+                return new SolveHandResponse
+                {
+                    StatusCode = Enums.StatusCodesEnum.IncorrectNumberOfTilesInHand,
+                    IsHandWinning = false,
+                    Message = "Number of tiles is greater than 14: " + tiles.Count.ToString()
+                };
+            }
             if (tiles.Count % 3 == 0)
             {
                 return new SolveHandResponse
                 {
+                    StatusCode = Enums.StatusCodesEnum.IncorrectNumberOfTilesInHand,
                     IsHandWinning = false,
                     Message = "Incorrect number of tiles: " + tiles.Count.ToString()
                 };
@@ -33,6 +43,7 @@ namespace MahjongSolverApiDotNet8.Services
                         {
                             return new SolveHandResponse
                             {
+                                StatusCode = Enums.StatusCodesEnum.IncorrectNumberOfCertainTile,
                                 IsHandWinning = false,
                                 Message = "Certain tile count is greater than 4: " + item.Key
                             };
@@ -40,13 +51,14 @@ namespace MahjongSolverApiDotNet8.Services
                     }
                     return new SolveHandResponse
                     {
+                        StatusCode = Enums.StatusCodesEnum.SuccessIsWinning,
                         IsHandWinning = BackTracking(tilesCounter, false),
                     };
                 }
                 else // tilesAmount % 3 == 1
                 {
                     HashSet<int> visited = [];
-                    List<string> winningTiles = [];
+                    List<int> winningTiles = [];
                     foreach (var tile in tiles)
                     {
                         // Only non honor tiles
@@ -65,7 +77,7 @@ namespace MahjongSolverApiDotNet8.Services
                                         //Console.WriteLine(BackTracking(new Dictionary<int, int>(tilesCounter), false));
                                         if (BackTracking(new Dictionary<int, int>(tilesCounter), false))
                                         {
-                                            winningTiles.Add((tile - 1).ToString());
+                                            winningTiles.Add((tile - 1));
                                             //winningTiles.Add(string.Join(",", tilesCounter.Values.ToArray()));
 
                                         }
@@ -89,7 +101,7 @@ namespace MahjongSolverApiDotNet8.Services
                                         //Console.WriteLine(BackTracking(new Dictionary<int, int>(tilesCounter), false));
                                         if (BackTracking(new Dictionary<int, int>(tilesCounter), false))
                                         {
-                                            winningTiles.Add((tile + 1).ToString());
+                                            winningTiles.Add((tile + 1));
                                             //winningTiles.Add(string.Join(",", tilesCounter.Values.ToArray()));
                                             // add the current tile
                                         }
@@ -115,7 +127,7 @@ namespace MahjongSolverApiDotNet8.Services
                                 if (BackTracking(new Dictionary<int, int>(tilesCounter), false))
                                 {
 
-                                    winningTiles.Add(tile.ToString());
+                                    winningTiles.Add(tile);
                                     //winningTiles.Add()
 
                                 }
@@ -128,6 +140,7 @@ namespace MahjongSolverApiDotNet8.Services
 
                     return new SolveHandResponse
                     {
+                        StatusCode = Enums.StatusCodesEnum.SuccessWithTiles,
                         IsHandWinning = winningTiles.Count > 0,
                         TilesToWin = winningTiles,
                     };

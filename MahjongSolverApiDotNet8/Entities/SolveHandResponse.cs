@@ -1,9 +1,12 @@
-﻿namespace MahjongSolverApiDotNet8.Entities
+﻿using MahjongSolverApiDotNet8.Enums;
+
+namespace MahjongSolverApiDotNet8.Entities
 {
     public class SolveHandResponse
     {
+        public required StatusCodesEnum StatusCode { get; set; }
         public bool IsHandWinning { get; set; }
-        public List<string> TilesToWin { get; set; } = new List<string>();
+        public List<int> TilesToWin { get; set; } = [];
 
         public string? Message { get; set; }
     }
