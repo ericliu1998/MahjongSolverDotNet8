@@ -9,13 +9,13 @@ namespace MahjongSolverApiDotNet8.Services
     {
         public SolveHandResponse SolveMahjongHand(List<int> tiles)
         {
-            if (tiles.Count > 14)
+            if (tiles.Count > 14 | tiles.Count <= 2)
             {
                 return new SolveHandResponse
                 {
                     StatusCode = Enums.StatusCodesEnum.IncorrectNumberOfTilesInHand,
                     IsHandWinning = false,
-                    Message = "Number of tiles is greater than 14: " + tiles.Count.ToString()
+                    Message = "Number of tiles must between 2 and 14: " + tiles.Count.ToString()
                 };
             }
             if (tiles.Count % 3 == 0)
@@ -30,8 +30,14 @@ namespace MahjongSolverApiDotNet8.Services
             else
             {
                 var tilesCounter = new Dictionary<int, int>();
+                var hasWong = false;
+
                 foreach (var tile in tiles)
                 {
+                    if (tile == 49)
+                    {
+                        hasWong = true;
+                    }
                     tilesCounter[tile] = tilesCounter.GetValueOrDefault(tile) + 1;
                 }
 
@@ -57,6 +63,7 @@ namespace MahjongSolverApiDotNet8.Services
                 }
                 else // tilesAmount % 3 == 1
                 {
+
                     HashSet<int> visited = [];
                     List<int> winningTiles = [];
                     foreach (var tile in tiles)
@@ -105,7 +112,6 @@ namespace MahjongSolverApiDotNet8.Services
                                             //winningTiles.Add(string.Join(",", tilesCounter.Values.ToArray()));
                                             // add the current tile
                                         }
-                                        ;
                                         tilesCounter[tile + 1] -= 1;
 
                                     }
@@ -145,6 +151,7 @@ namespace MahjongSolverApiDotNet8.Services
                         TilesToWin = winningTiles,
                     };
                 }
+
             }
         }
 
@@ -207,5 +214,20 @@ namespace MahjongSolverApiDotNet8.Services
 
             return false;
         }
+
+        public List<int> FindTilesToWin(List<int> tiles, bool hasWong)
+        {
+            var ret = new List<int>();
+
+            if (!hasWong)
+            {
+
+            }
+
+            return ret;
+        }
+
+        //public List<int> FindTilesToWinHelper() { 
+        //}
     }
 }

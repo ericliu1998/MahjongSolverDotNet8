@@ -10,6 +10,7 @@ namespace MahjongSolverApiDotNet8.Controllers
         [HttpGet]
         public async Task<ActionResult<Health>> GetHealth()
         {
+            Console.WriteLine("health");
             var health = new Health()
             {
                 Status = "Ok",
