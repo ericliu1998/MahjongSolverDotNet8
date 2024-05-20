@@ -6,6 +6,6 @@ namespace MahjongSolverApiDotNet8.Services
     {
         SolveHandResponse SolveMahjongHand(List<int> tiles);
 
-        bool BackTracking(Dictionary<int, int> dictionary, bool got_pair);
+        //bool BackTracking(Dictionary<int, int> dictionary, bool got_pair);
     }
 }

@@ -9,5 +9,8 @@ namespace MahjongSolverApiDotNet8.Entities
         public List<int> TilesToWin { get; set; } = [];
 
         public string? Message { get; set; }
+
+        public string? TimeElasped { get; set; }
+
     }
 }
