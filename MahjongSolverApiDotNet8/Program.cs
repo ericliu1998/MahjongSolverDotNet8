@@ -13,9 +13,9 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddPolicy("MjSolver", builder =>
     {
-        builder.AllowAnyOrigin();
+        builder.WithOrigins("https://ericliu1998.github.io");
         builder.AllowAnyMethod();
         builder.AllowAnyHeader();
     });
@@ -35,7 +35,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors();
+app.UseCors("MjSolver");
 
 app.UseAuthorization();
 

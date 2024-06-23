@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MahjongSolverApiDotNet8.Entities;
+using MahjongSolverApiDotNet8.Enums;
 using Newtonsoft.Json;
 
 namespace MahjongSolverApiDotNet8.Services
@@ -110,9 +111,26 @@ namespace MahjongSolverApiDotNet8.Services
                 {
                     tiles.RemoveAll(tile => tile == 49);
                     var completingTiles = FindTilesToWinWithWong(tiles, tilesCounter);
+                    Enums.StatusCodesEnum statusCode;
+                    if (completingTiles.Count > 0)
+                    {
+                        if (completingTiles[0] == 100)
+                        {
+                            statusCode = Enums.StatusCodesEnum.SuccessWithEveryTile;
+                        }
+                        else
+                        {
+                            statusCode = StatusCodesEnum.SuccessWithTiles;
+                        }
+                    }
+                    else
+                    {
+                        statusCode = StatusCodesEnum.SuccessWithTiles;
+                    }
+
                     return new SolveHandResponse
                     {
-                        StatusCode = (completingTiles.Count > 0 & completingTiles[0] == 100) ? Enums.StatusCodesEnum.SuccessWithEveryTile : Enums.StatusCodesEnum.SuccessWithTiles,
+                        StatusCode = statusCode,
                         IsHandWinning = completingTiles.Count > 0,
                         TilesToWin = completingTiles.Distinct().ToList()
                     };
@@ -407,6 +425,7 @@ namespace MahjongSolverApiDotNet8.Services
 
                 Console.WriteLine(count);
             }
+            winningTiles.Sort();
 
             return winningTiles;
         }
@@ -435,18 +454,7 @@ namespace MahjongSolverApiDotNet8.Services
                 }
                 tilesCounter[tile] -= 1;
             }
-            //}
-            //else
-            //{
-            //    var wongAmount = tilesCounter[49];
-            //    tilesCounter[49] = 0;
-
-            //    var potentialTilesToWin = FindPotentialTilesToWin(tiles, tilesCounter);
-
-
-
-            //    Console.WriteLine(wongAmount.ToString());
-            //}
+            winningTiles.Sort();
 
             return winningTiles;
         }
@@ -467,15 +475,6 @@ namespace MahjongSolverApiDotNet8.Services
                         if (tilesCounter.GetValueOrDefault(tile - 1) < 4)
                         {
                             visited.Add(tile - 1);
-                            //tilesCounter[tile - 1] += 1;
-                            //if (BackTracking(new Dictionary<int, int>(tilesCounter), false))
-                            //{
-                            //    winningTiles.Add((tile - 1));
-
-                            //}
-                            //tilesCounter[tile - 1] -= 1;
-
-
                         }
                     }
 
@@ -486,14 +485,6 @@ namespace MahjongSolverApiDotNet8.Services
                         if (tilesCounter.GetValueOrDefault(tile + 1) < 4)
                         {
                             visited.Add(tile + 1);
-                            //tilesCounter[tile + 1] += 1;
-                            //if (BackTracking(new Dictionary<int, int>(tilesCounter), false))
-                            //{
-                            //    winningTiles.Add((tile + 1));
-
-                            //}
-                            //tilesCounter[tile + 1] -= 1;
-
                         }
 
                     }
@@ -508,14 +499,6 @@ namespace MahjongSolverApiDotNet8.Services
                     if (tilesCounter[tile] < 4)
                     {
                         visited.Add(tile);
-
-                        //tilesCounter[tile] += 1;
-                        //if (BackTracking(new Dictionary<int, int>(tilesCounter), false))
-                        //{
-                        //    winningTiles.Add(tile);
-                        //}
-
-                        //tilesCounter[tile] -= 1;
 
                     }
                 }
