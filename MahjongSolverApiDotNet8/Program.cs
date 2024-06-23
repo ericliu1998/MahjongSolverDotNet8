@@ -43,6 +43,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors("MjSolver");
+//app.UseCors("localTesting");
 
 app.UseAuthorization();
 
