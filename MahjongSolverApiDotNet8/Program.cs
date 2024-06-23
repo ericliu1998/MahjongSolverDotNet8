@@ -19,6 +19,13 @@ builder.Services.AddCors(options =>
         builder.AllowAnyMethod();
         builder.AllowAnyHeader();
     });
+
+    options.AddPolicy("localTesting", builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
 });
 
 var app = builder.Build();
